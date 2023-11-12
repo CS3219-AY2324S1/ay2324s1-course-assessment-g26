@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 
-const QuestionTable = ({ questions, handleDelete, role_type }) => {
+const QuestionTable = ({ questions, handleDelete }) => {
   const router = useRouter();
 
   const handleEdit = (id) => {
@@ -30,11 +30,9 @@ const QuestionTable = ({ questions, handleDelete, role_type }) => {
               <th scope="col" className="px-6 py-3 w-0 font-medium">
                 Categories
               </th>
-              {role_type == 'maintainer' && (
-                <th scope="col" className="px-6 py-3 w-0 font-medium">
-                  Actions
-                </th>
-              )}
+              <th scope="col" className="px-6 py-3 w-0 font-medium">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -90,7 +88,7 @@ const QuestionTable = ({ questions, handleDelete, role_type }) => {
   );
 };
 
-const QuestionsList = ({ role_type }) => {
+const QuestionsList = () => {
   // const [searchText, setSearchText] = useState('');
   const [questions, setQuestions] = useState([]);
   // const handleSearchChange = (e) => {};
@@ -147,11 +145,7 @@ const QuestionsList = ({ role_type }) => {
           className="search_input peer mt-10"
         />
       </form> */}
-      <QuestionTable
-        questions={questions}
-        handleDelete={handleDelete}
-        role_type={role_type}
-      />
+      <QuestionTable questions={questions} handleDelete={handleDelete} />
     </section>
   );
 };

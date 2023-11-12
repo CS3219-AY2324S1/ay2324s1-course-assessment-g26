@@ -29,7 +29,7 @@ const Home = () => {
           <p className="desc text-center">
             Browse the questions here and get matched
           </p>
-          <QuestionsList role_type={session?.user.role_type} />
+          <QuestionsList />
         </>
       ) : (
         <div className="flex flex-col items-center">

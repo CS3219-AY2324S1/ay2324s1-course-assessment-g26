@@ -4,10 +4,7 @@ import { signOut, useSession} from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import PrivateRoute from '@app/api/auth/[...nextauth]/PrivateRoute';
 import { deleteUser, updateUser} from '@app/api/userService';
-import { getAttemptHistory } from '@app/api/attemptsService';
 import { useRouter } from 'next/navigation';
-
-import AttemptsList from "@components/AttemptsList";
 
 const ProfilePage = () => {
     let { data: session, update } = useSession();
@@ -72,33 +69,6 @@ const ProfilePage = () => {
         }
     };
 
-    // Fetch attempt history
-    useEffect(() => {
-        const fetchAttemptHistory = async () => {
-            try {
-                if (session?.user?.email) {
-                    const res = await getAttemptHistory(session.user.email);
-                    const attempts = res.data;
-                    // Ensure that attempts is an array before setting it to state
-                    if (Array.isArray(attempts)) {
-                        setAttemptHistory(attempts);
-                    } else {
-                        // If attempts is not an array, set it to an empty array
-                        setAttemptHistory([]);
-                        console.error('getAttemptHistory did not return an array');
-                        console.error(`Returned:`);
-                        console.error(attempts);
-                    }
-                }
-            } catch (error) {
-                console.error(error);
-                // Set attemptHistory to an empty array if there's an error
-                setAttemptHistory([]);
-            }
-        };
-        fetchAttemptHistory();
-    }, [session?.user?.email]);
-
     return (
         <div className="flex flex-col items-center w-full h-screen p-8">
             <h1 className="text-4xl mb-6">Profile</h1>
@@ -135,9 +105,6 @@ const ProfilePage = () => {
                     {editMode ? 'Cancel' : 'Edit Profile'}
                 </button>
             </div>
-
-            {/* Table for attempt history */}
-            <AttemptsList attemptHistory={attemptHistory} />
 
             {/* Delete profile text */}
             <span

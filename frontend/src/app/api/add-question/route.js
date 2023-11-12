@@ -11,7 +11,7 @@ export async function POST(req, res) {
       },
     }
   );
-  if (response.status !== 200) {
+  if (response.status !== 201) {
     // throw new Error(error.response?.data?.message);
     console.log('ERROR');
   }

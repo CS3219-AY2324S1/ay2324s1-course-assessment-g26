@@ -34,9 +34,6 @@ const Nav = () => {
       <div className="sm:flex hidden">
         {session?.user ? (
           <div className="flex gap-3">
-            <Link href="/collab-page" className="outline_btn">
-              Match with a Peer!
-            </Link>
             {session?.user.role_type === 'maintainer' && (
               <Link href="/add-question" className="black_btn">
                 Create Question

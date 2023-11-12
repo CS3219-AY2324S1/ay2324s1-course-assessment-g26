@@ -15,7 +15,9 @@ const PrivateRoute = (Component) => {
 
         }, [status, router]);
 
-        if (!(status === 'authenticated')) {
+        if (status === 'loading') {
+            return
+        } else if (!(status === 'authenticated')) {
             return <p>You must be logged in to view this page.</p>;
         }
 

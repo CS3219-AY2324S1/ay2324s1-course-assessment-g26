@@ -1,6 +1,4 @@
 'use client';
-import { getQuestionById } from '@app/api/questionService';
-import { parse } from 'postcss';
 import { useEffect, useState } from 'react';
 import { remark } from 'remark';
 import html from 'remark-html';

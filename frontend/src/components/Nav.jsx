@@ -34,11 +34,9 @@ const Nav = () => {
       <div className="sm:flex hidden">
         {session?.user ? (
           <div className="flex gap-3">
-            {session?.user.role_type === 'maintainer' && (
-              <Link href="/add-question" className="black_btn">
-                Create Question
-              </Link>
-            )}
+            <Link href="/add-question" className="black_btn">
+              Create Question
+            </Link>
 
             <button type="button" onClick={signOut} className="outline_btn">
               Sign Out

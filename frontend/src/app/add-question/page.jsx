@@ -1,11 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import QuestionForm from '@components/QuestionForm';
-import { createQuestion } from '@app/api/questionService';
-import MaintainerRoute from '@app/api/auth/[...nextauth]/MaintainerRoute';
-import axios from 'axios';
 
 const AddQuestion = () => {
   const router = useRouter();
@@ -51,4 +47,4 @@ const AddQuestion = () => {
   );
 };
 
-export default MaintainerRoute(AddQuestion);
+export default AddQuestion;

@@ -2,8 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { getAllQuestions, deleteQuestion } from '@app/api/questionService';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
 const QuestionTable = ({ questions, handleDelete, role_type }) => {
@@ -66,24 +64,22 @@ const QuestionTable = ({ questions, handleDelete, role_type }) => {
                   <td className="px-6 py-3">
                     {question.categories.join(', ')}
                   </td>
-                  {role_type == 'maintainer' && (
-                    <td className="px-6 py-3">
-                      <div className="flex space-x-4">
-                        <p
-                          className="font-inter text-sm cursor-pointer text-green-500"
-                          onClick={() => handleEdit(question._id)}
-                        >
-                          Edit
-                        </p>
-                        <p
-                          className="font-inter text-sm cursor-pointer text-orange-500"
-                          onClick={() => handleDelete(question._id)}
-                        >
-                          Delete
-                        </p>
-                      </div>
-                    </td>
-                  )}
+                  <td className="px-6 py-3">
+                    <div className="flex space-x-4">
+                      <p
+                        className="font-inter text-sm cursor-pointer text-green-500"
+                        onClick={() => handleEdit(question._id)}
+                      >
+                        Edit
+                      </p>
+                      <p
+                        className="font-inter text-sm cursor-pointer text-orange-500"
+                        onClick={() => handleDelete(question._id)}
+                      >
+                        Delete
+                      </p>
+                    </div>
+                  </td>
                 </tr>
               );
             })}

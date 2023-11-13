@@ -54,12 +54,6 @@ const ProfilePage = () => {
         setIsDeleteConfirmationOpen(true);
     };
 
-    const handleMagic = () => {
-        // This will display the confirmation dialog
-        createAttemptRecord(session?.user.email, 'abc123', 'Magic', 'abracadabra');
-    };
-
-
     const handleDeleteConfirm = async () => {
         try {
             const response = await deleteUser(session.user.email);
@@ -144,14 +138,6 @@ const ProfilePage = () => {
 
             {/* Table for attempt history */}
             <AttemptsList attemptHistory={attemptHistory} />
-
-            {/* Magic Button*/}
-            <span
-                className="cursor-pointer text-purple-600 hover:text-purple-700 mt-4"
-                onClick={handleMagic}
-            >
-                Magic button to add attempt
-            </span>
 
             {/* Delete profile text */}
             <span

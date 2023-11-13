@@ -31,7 +31,7 @@ const AttemptPage = ({ params }) => {
                 {attemptData.data.question_title}
             </div>
             <div>
-
+                {attemptData.data.code}
             </div>
         </>
     );

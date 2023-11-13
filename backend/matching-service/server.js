@@ -1,7 +1,8 @@
 // to start RabbitMQ (need to install docker first), run: docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
 // to start server, cd to matching-service directory and run: npm run dev
 // to view RabbitMQ Management UI, go to: http://localhost:15672/ (username and password are both 'guest')
-
+const jwt = require('jsonwebtoken');
+const axios = require('axios');
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
@@ -280,11 +281,16 @@ async function cancelConsumer(consumer) {
   channel.cancel(consumerObj.consumerTag);
 }
 
+const encoded = jwt.sign({ role: 'maintainer' }, process.env.JWT_SECRET);
 // Select a random question based on difficulty
 async function getQuestionIdByDifficulty(difficulty) {
   try {
-    const response = await fetch(QUESTION_SERVICE_ENDPOINT);
-    const questions = await response.json();
+    const response = await axios.get(QUESTION_SERVICE_ENDPOINT, {
+      headers: {
+        Authorization: `Bearer ${encoded}`,
+      },
+    });
+    const questions = response.data;
     const complexity =
       difficulty === 'easy'
         ? 'Easy'
@@ -298,6 +304,7 @@ async function getQuestionIdByDifficulty(difficulty) {
       filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
     return randomQuestion._id;
   } catch (error) {
+    console.error(error);
     return '6533d92691995349640128fa';
   }
 }

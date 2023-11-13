@@ -4,7 +4,7 @@ import { signOut, useSession} from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import PrivateRoute from '@app/api/auth/[...nextauth]/PrivateRoute';
 import { deleteUser, updateUser} from '@app/api/userService';
-import { getAttemptHistory } from '@app/api/attemptsService';
+import { createAttemptRecord, getAttemptHistory } from '@app/api/attemptsService';
 import { useRouter } from 'next/navigation';
 
 import AttemptsList from "@components/AttemptsList";
@@ -53,6 +53,12 @@ const ProfilePage = () => {
         // This will display the confirmation dialog
         setIsDeleteConfirmationOpen(true);
     };
+
+    const handleMagic = () => {
+        // This will display the confirmation dialog
+        createAttemptRecord(session?.user.email, 'abc123', 'Magic', 'abracadabra');
+    };
+
 
     const handleDeleteConfirm = async () => {
         try {
@@ -138,6 +144,14 @@ const ProfilePage = () => {
 
             {/* Table for attempt history */}
             <AttemptsList attemptHistory={attemptHistory} />
+
+            {/* Magic Button*/}
+            <span
+                className="cursor-pointer text-purple-600 hover:text-purple-700 mt-4"
+                onClick={handleMagic}
+            >
+                Magic button to add attempt
+            </span>
 
             {/* Delete profile text */}
             <span

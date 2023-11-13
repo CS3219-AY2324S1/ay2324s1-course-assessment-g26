@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import QuestionForm from '@components/QuestionForm';
+import MaintainerRoute from '@app/api/auth/[...nextauth]/MaintainerRoute';
 
 const AddQuestion = () => {
   const router = useRouter();
@@ -47,4 +48,4 @@ const AddQuestion = () => {
   );
 };
 
-export default AddQuestion;
+export default MaintainerRoute(AddQuestion);

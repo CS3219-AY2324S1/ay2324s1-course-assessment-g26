@@ -1,27 +1,28 @@
 import { getSession, useSession } from 'next-auth/react';
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const PrivateRoute = (Component) => {
-    return (props) => {
-        const { data: session, status } = useSession();
-        const router = useRouter();
+  return (props) => {
+    const { data: session, status } = useSession();
+    const router = useRouter();
 
-        useEffect(() => {
-            if (status === "loading") return; // Wait for session to load
-            if (!(status === 'authenticated')) {
-                router.push('/');
-            }
+    useEffect(() => {
+      if (status === 'loading') return; // Wait for session to load
+      if (!(status === 'authenticated')) {
+        router.push('/');
+      }
+    }, [status, router]);
 
-        }, [status, router]);
+    if (status === 'loading') {
+      return;
+    } else if (!(status === 'authenticated')) {
+      return <p>You must be logged in to view this page.</p>;
+    }
 
-        if (!(status === 'authenticated')) {
-            return <p>You must be logged in to view this page.</p>;
-        }
-
-        return <Component {...props} />;
-    };
-}
+    return <Component {...props} />;
+  };
+};
 
 const MaintainerRoute = (Component) => {
   return (props) => {

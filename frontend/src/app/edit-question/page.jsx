@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import QuestionForm from '@components/QuestionForm';
+import MaintainerRoute from '@app/api/auth/[...nextauth]/MaintainerRoute';
 import axios from 'axios';
 
 const EditQuestion = () => {
@@ -77,4 +78,4 @@ const EditQuestion = () => {
   );
 };
 
-export default EditQuestion;
+export default MaintainerRoute(EditQuestion);

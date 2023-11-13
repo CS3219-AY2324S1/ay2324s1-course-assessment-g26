@@ -7,7 +7,7 @@ import 'ace-builds/src-noconflict/ext-language_tools';
 import { useEffect, useRef } from 'react';
 import { initYjs, getYText } from '@utils/yjsSetup';
 
-export default function CodeEditor({ roomId = 'demo-room', language = 'python'}) {
+export default function CodeEditor({ roomId = 'demo-room', language = 'python', onCodeChange}) {
   const editorRef = useRef(null);
   console.log("Code Editor is in room: " + roomId);
   console.log("Code Editor is in language: " + language);
@@ -48,12 +48,14 @@ export default function CodeEditor({ roomId = 'demo-room', language = 'python'})
       ytext.delete(0, ytext.length); // Clear existing text
       ytext.insert(0, inputValue); // Insert new text
       isSyncing = false; // Reset flag
+
+      onCodeChange(inputValue);
     });
 
     // return () => {
     //   ydoc.destroy();
     // };
-  }, [roomId, ytext]);
+  }, [roomId]);
 
   return (
     <ReactAce

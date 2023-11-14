@@ -129,7 +129,9 @@ io.on('connection', (socket) => {
     });
 
     const checker = setInterval(() => {
-      isMatchedArr[0] = checkNotifications(socket, data);
+      if (checkNotifications(socket, data)) {
+        isMatchedArr[0] = true;
+      }
     }, 3000);
     // Check for a successful match in the notifications queue
     // const consumer = channel.consume(NOTIFICATION_QUEUE, (msg) => {
@@ -178,7 +180,7 @@ io.on('connection', (socket) => {
       // isMatched || socket.disconnect();
       clearInterval(checker);
       removeFromQueues(socket.id);
-      isMatched[0] || socket.disconnect();
+      isMatchedArr[0] || socket.disconnect();
     }, 30000);
 
     socket.on('disconnect', () => {

@@ -14,8 +14,6 @@ export default function CodeEditor({ roomId = 'demo-room', language = 'python', 
   const { ydoc, ytext } = initYjs(roomId);
 
   useEffect(() => {
-    //initYjs(roomId);
-    //const ytext = getYText();
     let isSyncing = false; // Flag to check if syncing is ongoing
 
     // Initialize Ace Editor from Yjs
@@ -30,13 +28,14 @@ export default function CodeEditor({ roomId = 'demo-room', language = 'python', 
       // Store cursor position and selection
       const cursorPosition = editor.getCursorPosition();
       const selection = editor.selection.toJSON();
-
-      editor.setValue(ytext.toString());
+      const currentCode = ytext.toString();
+      editor.setValue(currentCode);
 
       // Restore cursor position and selection
       editor.moveCursorToPosition(cursorPosition);
       editor.selection.fromJSON(selection);
 
+      onCodeChange(currentCode);  // This updates the code on editor change, but much slower
       isSyncing = false; // Reset flag
     });
 
@@ -45,11 +44,16 @@ export default function CodeEditor({ roomId = 'demo-room', language = 'python', 
       if (isSyncing) return; // Skip if we are currently syncing
       isSyncing = true; // Set flag to true
       const inputValue = editor.getValue();
-      ytext.delete(0, ytext.length); // Clear existing text
-      ytext.insert(0, inputValue); // Insert new text
+      
+      // Only update ytext if necessary
+      if (ytext.toString() !== inputValue) {
+        ytext.delete(0, ytext.length);
+        ytext.insert(0, inputValue);
+      }
+
       isSyncing = false; // Reset flag
 
-      onCodeChange(inputValue);
+      //onCodeChange(inputValue); // This updates the code on user change only. Much faster
     });
 
     // return () => {

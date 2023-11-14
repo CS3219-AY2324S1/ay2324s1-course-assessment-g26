@@ -48,13 +48,12 @@ const CollabPage = ({ params }) => {
       console.log("question title is: " + questionTitle);
       console.log("code is: " + code);
 
-      //const response = await createAttemptRecord(userEmail, questionId, questionTitle, code);
-      const response = await createAttemptRecord(userEmail, questionId, questionTitle);
+      const response = await createAttemptRecord(userEmail, questionId, questionTitle, code);
+
       console.log('Save successful:', response);
       // Additional logic after successful save
 
     } catch (error) {
-      console.log("Error saving attempt: " + error)
       console.error('Error saving attempt:', error);
       // Error handling
     }

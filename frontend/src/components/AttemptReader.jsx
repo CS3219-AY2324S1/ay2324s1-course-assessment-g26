@@ -8,20 +8,22 @@ import 'ace-builds/src-noconflict/theme-monokai';
 
 const AttemptReader = ({ code, language }) => {
   return (
-    <ReactAce
-      value={code}
-      mode={language}
-      theme="monokai"
-      readOnly={true}
-      fontSize={14}
-      showPrintMargin={true}
-      showGutter={true}
-      highlightActiveLine={false}
-      setOptions={{
-        showLineNumbers: true,
-        tabSize: 2,
-      }}
-    />
+    <div style={{ height: '400px', overflow: 'auto' }}>
+      <ReactAce
+        value={code}
+        mode={language}
+        theme="monokai"
+        readOnly={true}
+        fontSize={14}
+        showPrintMargin={true}
+        showGutter={true}
+        highlightActiveLine={false}
+        setOptions={{
+          showLineNumbers: true,
+          tabSize: 2,
+        }}
+      />
+    </div>
   );
 };
 

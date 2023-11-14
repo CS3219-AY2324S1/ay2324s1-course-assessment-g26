@@ -1,8 +1,8 @@
 "use client"
-import React, {useEffect, useState} from 'react';
-import { useSession} from 'next-auth/react'; // Assuming you are using next-auth for session management
+import React, { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { getAttempt } from '@app/api/attemptsService';
-import {useParams, useSearchParams} from "next/navigation";
+import AttemptReader from '@components/AttemptReader';
 
 const AttemptPage = ({ params }) => {
     const [attemptData, setAttemptData] = useState(null);
@@ -10,7 +10,6 @@ const AttemptPage = ({ params }) => {
     const attemptId = params.id;
 
     useEffect(() => {
-
         if (session && attemptId) {
             getAttempt(session.user.email, attemptId)
                 .then(response => {
@@ -26,12 +25,11 @@ const AttemptPage = ({ params }) => {
 
     return (
         <>
-            This is attempt {attemptId}.
+            <h1>This is attempt {attemptId}.</h1>
+            <h2>Question: {attemptData.data.question_title}</h2>
+            <p>Attempted on: {new Date(attemptData.data.attempt_datetime).toLocaleDateString()}</p>
             <div>
-                {attemptData.data.question_title}
-            </div>
-            <div>
-                {attemptData.data.code}
+                <AttemptReader code={attemptData.data.code} language={attemptData.data.language} />
             </div>
         </>
     );

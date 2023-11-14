@@ -126,6 +126,8 @@ io.on('connection', (socket) => {
         // Ack message to delete notification from queue
         channel.ack(msg);
 
+        console.log('Removed from notifications queue:', msgObj);
+
         // Notify user that user is joining
         socket.emit('match_found', {
           message: `Match found, user ${data.username} joining room ${msgObj.room_id}`,
@@ -158,7 +160,11 @@ io.on('connection', (socket) => {
     // Set timeout for 30 seconds to disconnect user if not matched
     setTimeout(() => {
       cancelConsumer(consumer);
-      isMatched || socket.disconnect();
+      // isMatched || socket.disconnect();
+      if (!isMatched) {
+        console.log('Timeout reached and disconnected with', socket.id);
+        socket.disconnect();
+      }
     }, 30000);
 
     socket.on('disconnect', () => {
@@ -202,6 +208,7 @@ io.on('connection', (socket) => {
 async function addToMatchQueue(message, language, difficulty) {
   try {
     const queue = LANGUAGE_TO_QUEUES[language][difficulty];
+    console.log('Adding to queue:', queue, 'message:', message);
     // Add the current client socket ID to the queue
     channel.sendToQueue(queue, Buffer.from(message));
   } catch (error) {
@@ -217,6 +224,9 @@ async function matchUsersInQueue(language, difficulty) {
 
     // Get the current number of user IDs in the queue
     const matchQueueStats = await channel.checkQueue(queue);
+    console.log('Statistics of queue', queue, matchQueueStats);
+    const notificationQueueStats = await channel.checkQueue(NOTIFICATION_QUEUE);
+    console.log('Statistics of notifications queue:', notificationQueueStats);
 
     // If there are more than 2 users in queue, match 2 users together
     if (matchQueueStats.messageCount >= 2) {
@@ -227,6 +237,7 @@ async function matchUsersInQueue(language, difficulty) {
         channel.ack(user1);
       }
       const user1Details = JSON.parse(user1.content.toString());
+      console.log('Removed from queue:', queue, 'message:', user1Details);
 
       // Get second user
       const user2 = await channel.get(queue);
@@ -234,6 +245,7 @@ async function matchUsersInQueue(language, difficulty) {
         channel.ack(user2);
       }
       const user2Details = JSON.parse(user2.content.toString());
+      console.log('Removed from queue:', queue, 'message:', user2Details);
 
       const selectedQuestionId = await getQuestionIdByDifficulty(difficulty);
 
@@ -265,10 +277,12 @@ async function matchUsersInQueue(language, difficulty) {
         NOTIFICATION_QUEUE,
         Buffer.from(JSON.stringify(newNotification1))
       );
+      console.log('Adding to notifications queue:', newNotification1);
       channel.sendToQueue(
         NOTIFICATION_QUEUE,
         Buffer.from(JSON.stringify(newNotification2))
       );
+      console.log('Adding to notifications queue:', newNotification2);
     }
   } catch (error) {
     console.error('Error: ', error);

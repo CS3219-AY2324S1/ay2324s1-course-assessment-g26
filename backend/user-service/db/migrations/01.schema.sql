@@ -6,10 +6,10 @@ CREATE TABLE IF NOT EXISTS clientuser (
 );
 
 CREATE TABLE IF NOT EXISTS attempts (
+    attempt_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     email VARCHAR(50),
     question_id VARCHAR(30),
     question_title VARCHAR(30),
     attempt_datetime TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    code VARCHAR(300),
-    PRIMARY KEY(email, question_id, attempt_datetime)
+    code VARCHAR(500)
 );

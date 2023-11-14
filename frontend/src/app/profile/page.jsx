@@ -4,7 +4,7 @@ import { signOut, useSession} from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import PrivateRoute from '@app/api/auth/[...nextauth]/PrivateRoute';
 import { deleteUser, updateUser} from '@app/api/userService';
-import { getAttemptHistory } from '@app/api/attemptsService';
+import { createAttemptRecord, getAttemptHistory } from '@app/api/attemptsService';
 import { useRouter } from 'next/navigation';
 
 import AttemptsList from "@components/AttemptsList";

@@ -24,14 +24,14 @@ const AttemptPage = ({ params }) => {
     if (!attemptData?.data) return <div>No attempt data found.</div>;
 
     return (
-        <>
-            <h1>This is attempt {attemptId}.</h1>
-            <h2>Question: {attemptData.data.question_title}</h2>
-            <p>Attempted on: {new Date(attemptData.data.attempt_datetime).toLocaleDateString()}</p>
-            <div>
+        <div className="p-4">
+            <h1 className="text-2xl font-bold mb-2">Your saved attempt</h1>
+            <h2 className="text-xl mb-2">Question: {attemptData.data.question_title}</h2>
+            <p className="mb-4">Attempt saved on: {new Date(attemptData.data.attempt_datetime).toLocaleString()}</p>
+            <div className="border p-4 rounded-lg">
                 <AttemptReader code={attemptData.data.code} language={attemptData.data.language} />
             </div>
-        </>
+        </div>
     );
 };
 

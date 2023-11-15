@@ -10,23 +10,19 @@ dotenv.config();
 const router = express.Router();
 
 // Create new question attempt by a user (A user is uniquely identified by their email)
-router.post('/:email', param('email').isEmail().escape(), body(['question_id', 'question_title', 'code']).notEmpty().escape(),
-    checkUserExists(), checkQuestionExists(), async (req, res) => {
+router.post('/:email', param('email').isEmail().escape(), body(['question_id', 'question_title']).notEmpty().escape(),
+    body('code').notEmpty(), checkUserExists(), checkQuestionExists(), async (req, res) => {
         try {
-            console.log("Received Request QI AN");
-
+            console.log(`Received request to add attempt made by ${email} on ${question_title}`);
             const validationRes = validationResult(req);
             if (!(validationRes.isEmpty())) { // If validation fails
                 return res.status(400).json(validationRes.array()); // Return all error messages
             }
             const { email } = req.params;
             const { question_id, question_title, code } = req.body;
-
-            console.log("Adding this thing into db")
+            console.log(`Inserting attempt..`);
             const resp = await addAttempt(email, question_id, question_title, code);
-            console.log("Added this thing into db")
-            console.log(resp)
-
+            console.log(`Added attempt: ${resp}`);
             res.status(200).json({message: `Attempt for question ${question_id} by ${email} created successfully`})
         } catch (error) {
             console.log(error);

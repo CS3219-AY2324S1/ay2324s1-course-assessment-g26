@@ -31,4 +31,4 @@ services:
     ports:
       - '4444:4444'
     env_file:
-      - ./ai-service/.env.local
+      - ./ai-service/.env

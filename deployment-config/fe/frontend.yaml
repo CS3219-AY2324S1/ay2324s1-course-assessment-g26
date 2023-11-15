@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: ui
+    type: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: ui
+    type: frontend
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: ui
+      type: frontend
+  template:
+    metadata:
+      labels:
+        app: ui
+        type: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: tanchinkiat99/peerprep-frontend:1.2
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GOOGLE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-secrets
+                  key: google-id
+            - name: GOOGLE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-secrets
+                  key: google-secret
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-secrets
+                  key: nextauth-secret
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-secrets
+                  key: jwt-secret
+            - name: EXPRESS_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: express-server
+            - name: NEXT_PUBLIC_MATCHING_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: next-public-matching-service-url
+            - name: NEXT_PUBLIC_COLLAB_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: next-public-collab-service-url
+            - name: NEXT_PUBLIC_QUESTION_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: next-public-question-service-url
+            - name: NEXT_PUBLIC_AI_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: next-public-ai-service-url
+            - name: NEXT_PUBLIC_EXPRESS_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: next-public-express-server
+            - name: NEXTAUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: nextauth-url

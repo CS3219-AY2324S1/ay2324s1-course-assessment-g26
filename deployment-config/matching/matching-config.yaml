@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matching-config
+data:
+  matching-server-port: '5001'
+  rabbitmq-domain: 'guest:guest@localhost'
+  rabbitmq-port: '5672'
+  frontend-url: 'http://localhost:3000'
+  question-service-port: '5000'
+  question-service-url: http://question-service:5000

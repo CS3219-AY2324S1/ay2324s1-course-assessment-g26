@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: frontend-secrets
+type: Opaque
+data:
+  google-id: # Insert base64 encoded value
+  google-secret: # Insert base64 encoded value
+  nextauth-secret: # Insert base64 encoded value
+  jwt-secret: # Insert base64 encoded value
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  next-public-matching-service-url: 'http://34.87.13.167:60001/'
+  next-public-collab-service-url: 'ws://34.124.252.39:60002/'
+  next-public-question-service-url: 'http://34.143.188.134/question/'
+  next-public-ai-service-url: 'http://34.143.188.134/ai'
+  next-public-express-server: 'http://34.143.188.134/user'
+  express-server: 'http://34.143.188.134/user'
+  nextauth-url: 'http://peer-prep-group-26.com/'

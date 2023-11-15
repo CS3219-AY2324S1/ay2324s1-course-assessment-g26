@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 
 const AttemptsList = ({ attemptHistory }) =>
 {
@@ -22,10 +23,14 @@ const AttemptsList = ({ attemptHistory }) =>
             </thead>
             <tbody>
             {(showAllAttempts ? attemptHistory : attemptHistory.slice(0, 5)).map((attempt, index) => (
-                <tr key={index}>
-                    <td className="p-2">{attempt.question_title}</td>
-                    <td className="p-2">{new Date(attempt.attempt_datetime).toLocaleString()}</td>
-                </tr>
+                    <tr key={index}>
+                        <td className="p-2">
+                            <Link href={`attempts/${attempt.attempt_id}`}>
+                                {attempt.question_title}
+                            </Link>
+                        </td>
+                        <td className="p-2">{new Date(attempt.attempt_datetime).toLocaleString()}</td>
+                    </tr>
             ))}
             </tbody>
         </table>

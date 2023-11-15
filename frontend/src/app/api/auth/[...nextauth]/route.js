@@ -34,7 +34,7 @@ const handler = NextAuth({
       };
 
       try {
-        const res = await axios.post(`${process.env.EXPRESS_SERVER}/auth/signin-new`,
+        const res = await axios.post(`${process.env.EXPRESS_SERVER}/auth/signin-new/`,
             {
               name: user_.name,
               email: user_.email,

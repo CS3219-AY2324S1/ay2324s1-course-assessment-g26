@@ -13,7 +13,18 @@ const getAttemptsByUser = async (email) => {
     return rows;
 }
 
+const getAttemptById = async (attempt_id) => {
+    const res = await pool.query("SELECT * from attempts where attempt_id = $1", [attempt_id]);
+
+    if (res.rowCount > 0) {
+        return res.rows[0]
+    }
+
+    return
+}
+
 export {
     addAttempt,
-    getAttemptsByUser
+    getAttemptsByUser,
+    getAttemptById
 }

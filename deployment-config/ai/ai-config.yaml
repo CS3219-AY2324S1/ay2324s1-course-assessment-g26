@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ai-secret
+type: Opaque
+data:
+  openai-api-key: # Insert base64 encoded value
